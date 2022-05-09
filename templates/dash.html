@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<h1 class='text-center'>Welcome <strong>{{var.username}}</strong></h1>
+
+
+
+
+  <div class="container">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Tutor_name</th>
+          <th>Email</th>
+
+          <th>user_name</th>
+          <th>address</th>
+          <th>gender</th>
+          <th>mobile</th>
+          <th>photo</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for lst in lst %}
+
+
+        <tr>
+            <td>{{lst.user.first_name}}</td>
+            <td>{{lst.user.email}}</td>
+            <td>{{lst.user}}</td>
+            <td>{{lst.address}}</td>
+            <td>{{lst.gender}}</td>
+            <td>{{lst.mobile}}</td>
+            
+            
+            {% if lst.photo == '/static/image/default.png' %}
+            <td>
+                <!-- <img src="{{ lst.photo }}" class="w-25"> -->
+                <img src="{% static 'image/default.png' %}" class="w-50">
+            </td>
+            {% else %}
+            <td>
+                <img src="{{ lst.photo.url }}" class="w-25 h-25">
+            </td>
+            {% endif %}
+          
+        </tr>
+
+        {% endfor %}
+
+
+      </tbody>
+    </table>
+
+  </div>
+  <div class="text-center">
+    <button class='btn btn-danger'>
+      <a class="nav-link text-white " href="{% url 'logout' %}">LOGOUT</a>
+    </button>
+  </div>
+{% endblock content %}

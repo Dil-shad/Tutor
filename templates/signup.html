@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-1 text-center">
+    {% for message in messages %}
+    <h5>
+        <div class="alert alert-danger mt-5" style="width: 50%;">
+            {{ message }}
+        </div>
+    </h5>
+        {% endfor %}
+    <div class="row justify-content-center">
+        <div class="alert alert-info w-45">
+            <strong>Info!</strong> You Have Already a Account? <a href="{% url 'Home_page' %}" class="alert-link">Click
+                Here..</a>.
+        </div>
+    </div>
+    <div class="row justify-content-center">
+
+        <div class="col-md-4"> </div>
+        <div class="col-md-4">
+            <form class="" action="{% url 'signup' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <!-- User_Tb -->
+                <input type="text" name="first_name" class="form-control m-2 border-dark " placeholder="First Name">
+                <input type="text" name="last_name" class="form-control m-2 border-dark" placeholder="Last Name">
+                <input type="text" name="username" class="form-control m-2 border-dark" placeholder="Username">
+                <input type="email" name="email" class="form-control m-2 border-dark" placeholder="Email">
+                <input type="password" name="password" class="form-control m-2 border-dark"
+                    placeholder="Strong Password">
+                <input type="password" name="cpassword" class="form-control m-2 border-dark"
+                    placeholder="Confirm Password">
+                <!-- My_mdl -->
+
+
+                <input type="text" class="form-control border-dark m-2" name='addr' placeholder="address">
+                <p class="float-left pl-2">Choose Gender:</p>
+                <div class="form-check-inline float-left mx-2">
+                    <label class="form-check-label" for="radio1">
+                        <input type="radio" class="form-check-input" id="radio1" name="gen" value="Male" checked>Male
+                    </label>
+                </div>
+                <div class="form-check-inline float-left">
+                    <label class="form-check-label" for="radio1">
+                        <input type="radio" class="form-check-input" id="radio1" name="gen" value="Female"
+                            checked>Female
+                    </label>
+                </div>
+                <br>
+
+
+                <input type="tel" name="ph" id="" placeholder="Mobile Number"
+                    class="form-control m-2 border-dark">
+                <input type="file" name="file" id="" accept="image/*" class="form-control m-2 border-dark">
+                <button type="submit" class="btn btn-outline-info mt-3 w-100">SUBMIT</button>
+
+            </form>
+        </div>
+        <div class="col-md-4"></div>
+
+
+
+    </div>
+
+
+</div>
+{% endblock %}
