@@ -1,4 +1,5 @@
 from distutils.command.upload import upload
+from email.mime import image
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -10,4 +11,4 @@ class UserExtra(models.Model):
     address = models.TextField(max_length=250)
     gender = models.CharField(max_length=10)
     mobile = models.CharField(max_length=10)
-    photo = models.ImageField(upload_to='image/user', null=True, blank=True)
+    image = models.ImageField(upload_to='image/user', null=True, blank=True)

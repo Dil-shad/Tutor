@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+
+<div class="row">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-6"> 
+        <h1>Update</h1> 
+        <form method="post" action="/edit/{{ idd.pk }}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <h6>First name:</h6>
+            <input type="text" name="fname" class="form-control mt-3" value="{{idd.user.first_name  }}">
+
+            <h6>Address:</h6>
+            <input type="text" name="uaddress" class="form-control mt-3" value="{{idd.address  }}">
+            <h6>mobile:</h6>
+            <input type="text" value="{{ idd.mobile }}" name="nnumber">
+            <br>
+            <h6>Product Image :</h6>
+            <img src="{{ idd.image.url }}" class="w-25">
+            <br>
+            <h6>upload new:</h6>
+            <input type="file" name="file" class="form-control mt-3" accept="image/*" >
+            <button type="submit" class="btn btn-light mt-3 w-100">UPDATE</button>
+        </form>
+    </div>
+    <div class="col-sm-3"></div>
+</div>
+
+
+
+
+{% endblock content %}

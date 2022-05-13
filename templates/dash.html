@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-
 {% load static %}
 
 {% block content %}
@@ -9,57 +8,56 @@
 
 
 
-  <div class="container">
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>Tutor_name</th>
-          <th>Email</th>
+<div class="container">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Tutor_name</th>
+        <th>Email</th>
 
-          <th>user_name</th>
-          <th>address</th>
-          <th>gender</th>
-          <th>mobile</th>
-          <th>photo</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for lst in lst %}
-
-
-        <tr>
-            <td>{{lst.user.first_name}}</td>
-            <td>{{lst.user.email}}</td>
-            <td>{{lst.user}}</td>
-            <td>{{lst.address}}</td>
-            <td>{{lst.gender}}</td>
-            <td>{{lst.mobile}}</td>
-            
-            
-            {% if lst.photo == '/static/image/default.png' %}
-            <td>
-                <!-- <img src="{{ lst.photo }}" class="w-25"> -->
-                <img src="{% static 'image/default.png' %}" class="w-50">
-            </td>
-            {% else %}
-            <td>
-                <img src="{{ lst.photo.url }}" class="w-25 h-25">
-            </td>
-            {% endif %}
-          
-        </tr>
-
-        {% endfor %}
+        <th>user_name</th>
+        <th>address</th>
+        <th>gender</th>
+        <th>mobile</th>
+        <th>image</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for lst in lst %}
 
 
-      </tbody>
-    </table>
+      <tr>
+        <td>{{lst.user.first_name}}</td>
+        <td>{{lst.user.email}}</td>
+        <td>{{lst.user}}</td>
+        <td>{{lst.address}}</td>
+        <td>{{lst.gender}}</td>
+        <td>{{lst.mobile}}</td>
+        {% if lst.image == '/static/image/default.png' %}
+        <td>
+          <!-- <img src="{{ lst.image }}" class="w-25"> -->
+          <img src="{% static 'static/image/default.png' %}"  class="w-25" alt="My image">
+        </td>
+        {% else %}
+        <td>
+          <img src="{{ lst.image.url }}" class="w-25">
+        </td>
+        {% endif %}
+        <td><a style="text-decoration: none;"  href="{% url 'edit' lst.id %}">EDIT</a><br>
+          <a href="{% url 'delete' lst.id %}">DELETE</a> </td>
+      </tr>
 
-  </div>
-  <div class="text-center">
-    <button class='btn btn-danger'>
-      <a class="nav-link text-white " href="{% url 'logout' %}">LOGOUT</a>
-    </button>
-  </div>
+      {% endfor %}
+
+
+    </tbody>
+  </table>
+
+</div>
+<div class="text-center">
+  <button class='btn btn-danger'>
+    <a class="nav-link text-white " href="{% url 'logout' %}">LOGOUT</a>
+  </button>
+</div>
 {% endblock content %}

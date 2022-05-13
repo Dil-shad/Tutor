@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<div class="container mt-1 text-center">
+<div class="container  text-center bg-light">
     {% for message in messages %}
     <h5>
         <div class="alert alert-danger mt-5" style="width: 50%;">
@@ -11,7 +11,7 @@
     </h5>
         {% endfor %}
     <div class="row justify-content-center">
-        <div class="alert alert-info w-45">
+        <div class="alert alert-info w-45 m-3">
             <strong>Info!</strong> You Have Already a Account? <a href="{% url 'Home_page' %}" class="alert-link">Click
                 Here..</a>.
         </div>

@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
 from .models import *
+import os
 
 
 # Create your views here.
@@ -51,7 +52,7 @@ def signup(request):
                     address=address,
                     gender=gender,
                     mobile=phone,
-                    photo=image,
+                    image=image,
                 )
                 extra.save()
                 return redirect('login')
@@ -63,38 +64,42 @@ def signup(request):
 
 
 def login(request):
+    try:
+        if request.method == 'POST':
+            uname = request.POST['username']
+            pwd = request.POST['password']
+            user = auth.authenticate(username=uname, password=pwd)
 
-    if request.method == 'POST':
-        uname = request.POST['username']
-        pwd = request.POST['password']
-        user = auth.authenticate(username=uname, password=pwd)
-        request.session['uid'] = user.id
-
-        if user is not None:
-            if user.is_superuser:
-                auth.login(request, user)
-                return redirect('dash')
+            if user is not None:
+                if user.is_superuser:
+                    request.session['uid'] = user.id
+                    auth.login(request, user)
+                    return redirect('dash')
+                else:
+                    request.session['uid'] = user.id
+                    auth.login(request, user)
+                    #messages.info(request, f'Welcome{uname}')
+                    return redirect('profile')
             else:
-                auth.login(request, user)
-                #messages.info(request, f'Welcome{uname}')
-                return redirect('/profile')
-        else:
-            messages.info(request, 'Invalid Username or Password. Try Again.')
-            return redirect('login')
+                messages.info(
+                    request, 'Invalid Username or Password. Try Again.IN')
+                return redirect('login')
 
-    return render(request, 'login.html')
+        return render(request, 'login.html')
+    except:
+        messages.info(request, 'Invalid username or password')
+        return render(request, 'login.html')
 
 
 def dash(request):
-    global uiid
     if 'uid' in request.session:
-        var=request.user
+        var = request.user
 
         x = UserExtra.objects.all()
         context = {
             'lst': x,
-            'var':var
-    
+            'var': var
+
         }
 
         return render(request, 'dash.html', context)
@@ -105,6 +110,7 @@ def profile(request):
     if 'uid' in request.session:
         usr = UserExtra.objects.filter(user=request.user)
         # var = request.user
+        print(list(usr))
 
         context = {
             'dic': usr,
@@ -122,7 +128,44 @@ def about(request):
     return redirect('login')
 
 
+'''def edit(request, pk):
+    if not request.user.is_staff:
+        raise PermissionDenied'''
+
+
 def logout(request):
     request.session['uid'] = ''
     auth.logout(request)
-    return redirect('login')
+    return redirect('/')
+
+
+
+def edit(request,pk):
+
+    if request.method=='POST':
+        usr=UserExtra.objects.get(id=pk)
+        usr.user.first_name=request.POST.get('fname')
+        usr.address=request.POST.get('uaddress')
+        usr.mobile=request.POST.get('nnumber')
+        if request.FILES.get('file') is not None:
+            usr.image = request.FILES.get('file')
+
+        else:
+            pass
+        usr.save()
+        return redirect('dash')
+
+    idd=UserExtra.objects.get(id=pk)
+    return render(request,'edit.html',{'idd':idd})
+
+
+
+def delete(request,pk):
+    dell = UserExtra.objects.get(id=pk)
+    if dell.image is not None:
+        if not dell.image == "/static/image/default.png":
+            os.remove(dell.image.path)
+        else:
+            pass
+    dell.delete()
+    return redirect('dash')

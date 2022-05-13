@@ -12,7 +12,9 @@ urlpatterns = [
     path('dash', dash, name='dash'),
     path('profile', profile, name='profile'),
     path('about', about, name='about'),
-    path('logout',logout,name='logout')
+    path('logout', logout, name='logout'),
+    path('edit/<int:pk>', edit, name='edit'),
+    path('delete/<int:pk>', delete, name='delete')
 
 
 ]
